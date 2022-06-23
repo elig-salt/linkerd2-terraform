@@ -85,10 +85,6 @@ resource "helm_release" "linkerd2" {
     name  = "identity.issuer.tls.keyPEM"
     value = tls_private_key.issuer_key.private_key_pem
   }
-
-  depends_on = [
-    var.nginx_elb_dns       # Adding this depend_on to prevent linkerd installation before core aws deployments are deployed successfully
-  ]
 }
 
 # Linkerd Viz

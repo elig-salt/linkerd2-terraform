@@ -6,8 +6,8 @@ resource "tls_private_key" "trustanchor_key" {
 }
 
 resource "tls_self_signed_cert" "trustanchor_cert" {
-  key_algorithm         = tls_private_key.trustanchor_key[0].algorithm
-  private_key_pem       = tls_private_key.trustanchor_key[0].private_key_pem
+  key_algorithm         = tls_private_key.trustanchor_key.algorithm
+  private_key_pem       = tls_private_key.trustanchor_key.private_key_pem
   validity_period_hours = 87600
   is_ca_certificate     = true
 
@@ -31,8 +31,8 @@ resource "tls_private_key" "issuer_key" {
 }
 
 resource "tls_cert_request" "issuer_req" {
-  key_algorithm   = tls_private_key.issuer_key[0].algorithm
-  private_key_pem = tls_private_key.issuer_key[0].private_key_pem
+  key_algorithm   = tls_private_key.issuer_key.algorithm
+  private_key_pem = tls_private_key.issuer_key.private_key_pem
 
   subject {
     common_name = "identity.linkerd.cluster.local"
@@ -57,7 +57,7 @@ resource "tls_locally_signed_cert" "issuer_cert" {
   ]
 }
 
-# LinkerD
+# Linkerd
 
 resource "helm_release" "linkerd2" {
   name       = "linkerd"

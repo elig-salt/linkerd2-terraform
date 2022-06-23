@@ -40,10 +40,10 @@ resource "tls_cert_request" "issuer_req" {
 }
 
 resource "tls_locally_signed_cert" "issuer_cert" {
-  cert_request_pem      = tls_cert_request.issuer_req[0].cert_request_pem
-  ca_key_algorithm      = tls_private_key.trustanchor_key[0].algorithm
-  ca_private_key_pem    = tls_private_key.trustanchor_key[0].private_key_pem
-  ca_cert_pem           = tls_self_signed_cert.trustanchor_cert[0].cert_pem
+  cert_request_pem      = tls_cert_request.issuer_req.cert_request_pem
+  ca_key_algorithm      = tls_private_key.trustanchor_key.algorithm
+  ca_private_key_pem    = tls_private_key.trustanchor_key.private_key_pem
+  ca_cert_pem           = tls_self_signed_cert.trustanchor_cert.cert_pem
   validity_period_hours = 8760
   early_renewal_hours   = var.linkerd_identity_validity_period_hours
   is_ca_certificate     = true
@@ -68,22 +68,22 @@ resource "helm_release" "linkerd2" {
 
   set {
     name  = "identityTrustAnchorsPEM"
-    value = tls_self_signed_cert.trustanchor_cert[0].cert_pem
+    value = tls_self_signed_cert.trustanchor_cert.cert_pem
   }
 
   set {
     name  = "identity.issuer.crtExpiry"
-    value = tls_locally_signed_cert.issuer_cert[0].validity_end_time
+    value = tls_locally_signed_cert.issuer_cert.validity_end_time
   }
 
   set {
     name  = "identity.issuer.tls.crtPEM"
-    value = tls_locally_signed_cert.issuer_cert[0].cert_pem
+    value = tls_locally_signed_cert.issuer_cert.cert_pem
   }
 
   set {
     name  = "identity.issuer.tls.keyPEM"
-    value = tls_private_key.issuer_key[0].private_key_pem
+    value = tls_private_key.issuer_key.private_key_pem
   }
 
   depends_on = [

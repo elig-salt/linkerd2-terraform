@@ -91,7 +91,7 @@ resource "helm_release" "linkerd2" {
   ]
 }
 
-# LinkerD Viz
+# Linkerd Viz
 
 resource "helm_release" "linkerd2-viz" {
   count      = var.include_viz == true ? 1 : 0
@@ -106,7 +106,7 @@ resource "helm_release" "linkerd2-viz" {
   ]
 }
 
-# LinkerD Jaeger
+# Linkerd Jaeger
 
 resource "helm_release" "linkerd2-jaeger" {
   count      = var.include_jaeger == true ? 1 : 0
